@@ -1,22 +1,21 @@
 import React,{useState,useEffect} from "react";
+import axios from 'axios';
 
 const ApiCall = (props)=>{
     const [state,setState] = useState([])
     useEffect(()=>{
     console.log('its runing')
-    fetch('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
-        .then(response => response.json())
-        .then(response => {
-            console.log(response.results)
-            setState(response.results)})
+    axios.get('https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0')
+        .then(response => {setState(response.data.results)})
         .catch(error => console.log(error))
     },[]);
     return(
         <div>
-            {state.length > 0 && state.map((state,index)=>{
+            {state.map((state,index)=>{
                 return(<div key={index}><p>{state.name}</p></div>)
             })}
         </div>
     );
+    
 }
 export default ApiCall
